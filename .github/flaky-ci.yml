@@ -1,0 +1,21 @@
+name: Flaky CI
+
+on:
+  pull_request:
+
+jobs:
+  flaky:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sleep
+        run: sleep 15
+
+      - name: Random failure
+        run: |
+          # 50% chance of failure
+          if [ $((RANDOM % 2)) -eq 0 ]; then
+            echo "Failing this run"
+            exit 1
+          else
+            echo "Passing this run"
+          fi
